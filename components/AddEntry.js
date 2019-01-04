@@ -6,6 +6,7 @@ import UdacitySteppers from './UdacitySteppers'
 import DateHeader from './DateHeader'
 import { Ionicons } from '@expo/vector-icons'
 import TextButton from './TextButton'
+import { removeEntry, submitEntry } from '../utils/api'
 
 export default class AddEntry extends React.Component {
 
@@ -48,6 +49,9 @@ export default class AddEntry extends React.Component {
     }
 
     submit = () => {
+
+        const key = timeToString()
+        
         this.setState({
             run: 0,
             bike: 0,
@@ -56,9 +60,12 @@ export default class AddEntry extends React.Component {
             eat: 0,
         })
 
+
+        submitEntry({ key, entry })
+
         /**
          * Navigate to home
-         * save to db
+         
          * clear local notification
          */
     }
@@ -66,11 +73,12 @@ export default class AddEntry extends React.Component {
     reset = () => {
         const key = timeToString()
 
+        removeEntry(key)
 
         /**
          * Update redix
          * route to home 
-         * save in db
+         
          */
     }
 
