@@ -1,14 +1,25 @@
 import React from 'react'
-import { View, Text } from 'react-native'
-import { getMetricMetaInfo } from '../utils/helpers'
+import { View, TouchableOpacity, Text } from 'react-native'
+import { getMetricMetaInfo, getDetailsReminderValue, timeToString } from '../utils/helpers'
 import UdacitySlider from './UdacitySlider'
 import UdacitySteppers from './UdacitySteppers'
 import DateHeader from './DateHeader'
 import { Ionicons } from '@expo/vector-icons'
 import TextButton from './TextButton'
 import { removeEntry, submitEntry } from '../utils/api'
+import { connect } from 'react-redux'
+import { addEntry } from '../actions'
 
-export default class AddEntry extends React.Component {
+function SubmitBtn({ onPress }) {
+    return (
+        <TouchableOpacity
+            onPress={onPress}>
+            <Text>SUBMIT</Text>
+        </TouchableOpacity>
+    )
+}
+
+class AddEntry extends React.Component {
 
     state = {
         run: 0,
@@ -50,8 +61,12 @@ export default class AddEntry extends React.Component {
 
     submit = () => {
 
+        const entry = this.state
+
         const key = timeToString()
-        
+
+        this.props.dispatch(addEntry({ [key]: entry }))
+
         this.setState({
             run: 0,
             bike: 0,
@@ -59,7 +74,6 @@ export default class AddEntry extends React.Component {
             sleep: 0,
             eat: 0,
         })
-
 
         submitEntry({ key, entry })
 
@@ -72,6 +86,8 @@ export default class AddEntry extends React.Component {
 
     reset = () => {
         const key = timeToString()
+
+        this.props.dispatch(addEntry({ [key]: getDetailsReminderValue() }))
 
         removeEntry(key)
 
@@ -126,7 +142,19 @@ export default class AddEntry extends React.Component {
                         </View>
                     )
                 })}
+                <SubmitBtn onPress={this.submit} />
             </View>
         )
     }
 }
+
+const mapStateToProps = (state) => {
+    const key = timeToString()
+
+    return {
+        alreadyLogged: state[key] && typeof state[key].today === 'undefined'
+    }
+}
+
+
+export default connect(mapStateToProps)(AddEntry)
