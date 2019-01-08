@@ -9,8 +9,13 @@ import { fetchCalendarResults } from '../utils/api'
 import UdaciFitnessCalendar from 'udacifitness-calendar'
 import DateHeader from './DateHeader'
 import MetricCard from './MetricCard'
+import { AppLoading } from 'expo'
 
 class History extends Component {
+
+    state = {
+        ready: false
+    }
 
     componentDidMount() {
         const { dispatch } = this.props
@@ -22,6 +27,9 @@ class History extends Component {
                     [timeToString()]: getDetailsReminderValue()
                 }))
             })
+            .then(() => this.setState({
+                ready: true
+            }))
     }
 
     renderItem = ({ today, ...metrics }, formattedDate, key) => (
@@ -36,7 +44,7 @@ class History extends Component {
                 </View>
                 )
                 : (<TouchableOpacity onPress={() => console.log("pressed!")}>
-                    <MetricCard metrics={metrics} date={formattedDate}/>
+                    <MetricCard metrics={metrics} date={formattedDate} />
                 </TouchableOpacity>
                 )
             }
@@ -46,9 +54,9 @@ class History extends Component {
     renderEmptyDate = (formattedDate) => {
         return (
             <View style={styles.item}>
-            <DateHeader date={formattedDate} />
+                <DateHeader date={formattedDate} />
                 <Text styke={styles.noDataText}>
-                You didn't log any data on this day
+                    You didn't log any data on this day
                 </Text>
             </View>
         )
@@ -56,7 +64,10 @@ class History extends Component {
     render() {
 
         const { entries } = this.props
+        const { ready } = this.state
 
+        if(!ready) return <AppLoading />
+        
         return (
             <UdaciFitnessCalendar
                 items={entries}
