@@ -8,6 +8,7 @@ import { timeToString, getDetailsReminderValue } from '../utils/helpers'
 import { fetchCalendarResults } from '../utils/api'
 import UdaciFitnessCalendar from 'udacifitness-calendar'
 import DateHeader from './DateHeader'
+import MetricCard from './MetricCard'
 
 class History extends Component {
 
@@ -35,7 +36,7 @@ class History extends Component {
                 </View>
                 )
                 : (<TouchableOpacity onPress={() => console.log("pressed!")}>
-                    <Text>{JSON.stringify(metrics)}</Text>
+                    <MetricCard metrics={metrics} date={formattedDate}/>
                 </TouchableOpacity>
                 )
             }
