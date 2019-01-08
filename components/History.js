@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 
-import { Text, View } from 'react-native'
-import { purple } from '../utils/colors';
+import { Text, View, StyleSheet, Platform, TouchableOpacity } from 'react-native'
+import { white } from '../utils/colors';
 import { connect } from 'react-redux'
 import { receiveEntries, addEntry } from '../actions'
 import { timeToString, getDetailsReminderValue } from '../utils/helpers'
 import { fetchCalendarResults } from '../utils/api'
 import UdaciFitnessCalendar from 'udacifitness-calendar'
+import DateHeader from './DateHeader'
 
 class History extends Component {
 
@@ -22,19 +23,32 @@ class History extends Component {
             })
     }
 
-    renderItem = ({ today, ...metrics }, formattedDate, key) => {
-        return (<View id={JSON.stringify(today)}>
+    renderItem = ({ today, ...metrics }, formattedDate, key) => (
+        <View
+            id={JSON.stringify(today)}
+            style={styles.item}
+        >
             {today
-                ? <Text>{JSON.stringify(today)}</Text>
-                : <Text>{JSON.stringify(metrics)}</Text>
-
+                ? (<View>
+                    <DateHeader date={formattedDate} />
+                    <Text>{today}</Text>
+                </View>
+                )
+                : (<TouchableOpacity onPress={() => console.log("pressed!")}>
+                    <Text>{JSON.stringify(metrics)}</Text>
+                </TouchableOpacity>
+                )
             }
-        </View>)
-    }
+        </View>
+    )
+
     renderEmptyDate = (formattedDate) => {
         return (
-            <View>
-                <Text>No Data for this day</Text>
+            <View style={styles.item}>
+            <DateHeader date={formattedDate} />
+                <Text styke={styles.noDataText}>
+                You didn't log any data on this day
+                </Text>
             </View>
         )
     }
@@ -51,6 +65,30 @@ class History extends Component {
         );
     }
 }
+
+const styles = StyleSheet.create({
+    item: {
+        backgroundColor: white,
+        borderRadius: Platform.OS === 'ios' ? 16 : 2,
+        padding: 26,
+        marginLeft: 10,
+        marginRight: 10,
+        marginTop: 17,
+        justifyContent: 'center',
+        shadowRadius: 3,
+        shadowOpacity: 0.8,
+        shadowColor: 'rgba(0,0,0,0.24)',
+        shadowOffset: {
+            width: 0,
+            height: 3
+        }
+    },
+    noDataText: {
+        fontSize: 20,
+        paddingTop: 20,
+        paddingBottom: 20
+    }
+})
 
 const mapStateToProps = entries => {
     return {
