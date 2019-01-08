@@ -9,13 +9,14 @@ import TextButton from './TextButton'
 import { removeEntry, submitEntry } from '../utils/api'
 import { connect } from 'react-redux'
 import { addEntry } from '../actions'
-import { white } from '../utils/colors'
+import { white, purple } from '../utils/colors'
 
 function SubmitBtn({ onPress }) {
     return (
         <TouchableOpacity
+            style={Platform.OS === 'ios' ? style.iosSubmitBtn : styles.androidSubmitBtn}
             onPress={onPress}>
-            <Text>SUBMIT</Text>
+            <Text style={styles.submitText} >SUBMIT</Text>
         </TouchableOpacity>
     )
 }
@@ -148,6 +149,33 @@ class AddEntry extends React.Component {
         )
     }
 }
+
+const styles = StyleSheet.create({
+    iosSubmitBtn: {
+        backgroundColor: purple,
+        padding: 10,
+        borderRadius: 7,
+        height: 45,
+        marginLeft: 40,
+        marginRight: 40
+    },
+    androidSubmitBtn: {
+        backgroundColor: purple,
+        padding: 10,
+        paddingLeft: 30,
+        paddingRight:30,
+        height: 45,
+        borderRadius:2,
+        alignSelf: 'flex-end',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    submitText: {
+        color: white,
+        fontSize: 22,
+        textAlign: 'center'   
+    }
+})
 
 const mapStateToProps = (state) => {
     const key = timeToString()
