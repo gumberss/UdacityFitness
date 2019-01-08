@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, TouchableOpacity, Text } from 'react-native'
+import { View, TouchableOpacity, Text, Platform, StyleSheet } from 'react-native'
 import { getMetricMetaInfo, getDetailsReminderValue, timeToString } from '../utils/helpers'
 import UdacitySlider from './UdacitySlider'
 import UdacitySteppers from './UdacitySteppers'
@@ -9,6 +9,7 @@ import TextButton from './TextButton'
 import { removeEntry, submitEntry } from '../utils/api'
 import { connect } from 'react-redux'
 import { addEntry } from '../actions'
+import { white } from '../utils/colors'
 
 function SubmitBtn({ onPress }) {
     return (
