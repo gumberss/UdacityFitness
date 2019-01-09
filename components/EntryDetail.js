@@ -71,11 +71,13 @@ const mapDispatchToProps = (dispatch, { navigation }) => {
     const { entryId } = navigation.state.params
 
     return {
-        remove: () => dispatch(addEntry({
-            [entryId]: timeToString() === entryId
-                ? getDetailsReminderValue
-                : null
-        })),
+        remove: () => {
+            dispatch(addEntry({
+                [entryId]: timeToString() === entryId
+                    ? getDetailsReminderValue()
+                    : null
+            }))
+        },
         goBack: () => navigation.goBack()
     }
 }

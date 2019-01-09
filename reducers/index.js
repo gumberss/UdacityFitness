@@ -1,4 +1,4 @@
-import { ADD_ENTRY, RECEIVE_ENTRIES, addEntry } from '../actions'
+import { ADD_ENTRY, RECEIVE_ENTRIES } from '../actions'
 
 export default function entries(state = {}, action) {
     switch (action.type) {
