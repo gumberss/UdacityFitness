@@ -10,7 +10,11 @@ import reducer from './reducers'
 
 import { purple, white } from './utils/colors'
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
-import { createBottomTabNavigator, createMaterialTopTabNavigator, createAppContainer, createStackNavigator } from 'react-navigation'
+import { createBottomTabNavigator
+  , createMaterialTopTabNavigator
+  , createAppContainer
+  , createStackNavigator
+  , createDrawerNavigator } from 'react-navigation'
 
 import { Constants } from 'expo'
 
