@@ -3,6 +3,7 @@ import { View, Platform, StatusBar } from 'react-native';
 import AddEntry from './components/AddEntry'
 import History from './components/History'
 import EntryDetail from './components/EntryDetail'
+import Live from './components/Live'
 
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
@@ -10,11 +11,13 @@ import reducer from './reducers'
 
 import { purple, white } from './utils/colors'
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
-import { createBottomTabNavigator
+import {
+  createBottomTabNavigator
   , createMaterialTopTabNavigator
   , createAppContainer
   , createStackNavigator
-  , createDrawerNavigator } from 'react-navigation'
+  , createDrawerNavigator
+} from 'react-navigation'
 
 import { Constants } from 'expo'
 
@@ -39,6 +42,13 @@ const RouteConfigs = {
     navigationOptions: {
       tabBarLabel: "Add Entry",
       tabBarIcon: ({ tintColor }) => <FontAwesome name='plus-square' size={30} color={tintColor} />
+    }
+  },
+  Live: {
+    screen: Live,
+    navigationOptions: {
+      tabBarLabel: 'Live',
+      tabBarIcon: ({ tintColor }) => <Ionicons name='ios-speedometer' size={30} color={tintColor} />
     }
   }
 };
@@ -81,7 +91,7 @@ const MainNavigator = createStackNavigator({
   },
   EntryDetail: {
     screen: EntryDetail,
-    navigationOptions:  ({ navigation }) => ({
+    navigationOptions: ({ navigation }) => ({
       headerTintColor: white,
       headerStyle: {
         backgroundColor: purple,
@@ -97,7 +107,7 @@ export default class App extends React.Component {
     return (
       <Provider store={createStore(reducer)}>
         <View style={{ flex: 1 }}>
-          <UdacityStatusBar backgroundColor={purple} barStyle='light-content'/>
+          <UdacityStatusBar backgroundColor={purple} barStyle='light-content' />
           <MainNavigatorContainer />
         </View>
       </Provider>
