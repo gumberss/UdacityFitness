@@ -19,6 +19,8 @@ import {
   , createDrawerNavigator
 } from 'react-navigation'
 
+import { setLocalNotification } from './utils/helpers'
+
 import { Constants } from 'expo'
 
 function UdacityStatusBar({ backgroundColor, ...props }) {
@@ -103,6 +105,11 @@ const MainNavigator = createStackNavigator({
 const MainNavigatorContainer = createAppContainer(MainNavigator)
 
 export default class App extends React.Component {
+
+  componentDidMount() {
+    setLocalNotification()
+  }
+
   render() {
     return (
       <Provider store={createStore(reducer)}>
